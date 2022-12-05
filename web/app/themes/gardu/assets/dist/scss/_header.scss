@@ -1,0 +1,246 @@
+
+  
+  
+.top-bar {
+    box-shadow: 1px 10px 5px 1px rgba(196,196,196,0.1);
+-webkit-box-shadow: 1px 10px 5px 1px rgba(196,196,196,0.1);
+-moz-box-shadow: 1px 10px 5px 1px rgba(196,196,196,0.1);
+}
+
+
+.left-top span {
+    font-size: 12px !important;
+}
+nav li {
+    display: flex !important;
+    align-items: center !important;
+    height: 40px;
+}
+
+
+
+.header nav li:nth-child(1):hover, .header nav li:nth-child(2):hover, .category-active {
+  opacity: .7;
+  transition: .5s;
+}
+
+
+.header nav li:nth-child(1), 
+.header nav li:nth-child(2), .header a.checkout-button, .header .button.wc-backward, .read-more {
+    background: $primary-color !important;
+    border-radius: 4px !important;
+    padding: 0 20px !important;
+    transition: .5s;
+  
+ a {
+    color: #fff;
+    font-size: 14px;
+ }
+}
+
+nav li:nth-child(3) img {
+  width: 17.4px !important;
+}
+
+nav li:nth-child(4) img {
+  width: 22px !important;
+}
+
+
+.woocommerce-product-search {
+    border: 1px solid #C5C5C5;
+    border-radius: 8px;
+    height: 40px;
+   
+    .search-field {
+        border: 0;
+        background: none;
+    }
+}
+
+
+@media only screen and (min-width : 950px) and (max-width : 1300px) {
+    .nav-link {
+        a {
+         font-size: .94vw !important;
+        }
+    }
+  } 
+
+  @media only screen and (max-width : 992px)  {
+   .woocommerce-product-search {
+    width: 100% !important;
+    justify-content: space-between !important;
+   }
+  }
+
+
+
+  .sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: $secondary-color;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .sidebar a {
+    color: #fff;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  
+  #main-sidebar {
+    transition: margin-left .5s;
+    padding: 16px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+
+
+  .dropdown-menu {
+    padding: 20px !important;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; // remove the gap so it doesn't close
+ }
+
+  .bottom-bar, .bottom-bar-recipes-menu {
+    position: relative;
+    margin-top: -60px;
+    z-index: -1;
+    transition: 0.35s margin ease-in-out;
+    opacity: 0;
+    background: #F5F5F5;
+  }
+
+
+  .move-down {
+    animation: moveDown .5s;
+    margin-top: -60px;
+    z-index: -1;
+    transition: 0.35s all ease-in-out;
+    opacity: 0;
+
+  }
+
+  .move-up {
+    margin-top: 0px !important;
+    z-index: 111111;
+    opacity: 1;
+    background: #fff;
+    transition: 0.35s all ease-in-out;
+  }
+
+  .top-bar path {
+    transition: .5s;
+  }
+
+  .top-bar .phone-number a:hover path {
+    fill: $primary-color;
+    transition: .5s;
+  }
+
+
+  @media screen and (max-width: 1635px) {
+    .bottom-bar, .bottom-bar-recipes-menu {
+      margin-top: -55px;
+    }
+  }
+
+  @media screen and (max-width: 1349px) {
+    .bottom-bar, .bottom-bar-recipes-menu {
+      // margin-top: -90px;
+      margin-top: -69px;
+    }
+  }
+
+  @media screen and (max-width: 1204px) {
+    .bottom-bar, .bottom-bar-recipes-menu{
+      // margin-top: -90px;
+      margin-top: -70px;
+
+    }
+  }
+  
+  @media screen and (max-width: 1038px) {
+    .bottom-bar, .bottom-bar-recipes-menu {
+      margin-top: -80px;
+    }
+  }
+  
+  @media screen and (max-width: 992px) {
+    .bottom-bar, .bottom-bar-recipes-menu {
+      display: none !important;
+    }
+  }
+
+  
+  
+  .announcement {
+    // border: 1px dashed $primary-color;
+    font-weight: 500;
+ p {
+  color: $primary-color;
+ }
+  }
+
+  #datafetch {
+    top: 50px;
+    display: none;
+    z-index: 11111;
+    background: #fff;
+    left: -60px;
+    width: 350px;
+    font-size: 12px;
+    border-radius: 8px;
+    
+        img {   
+            height: 40px !important;
+            object-fit: scale-down !important;
+        }
+
+    .product-item {
+      border-bottom: 1px solid $primary-color;
+    }
+
+    .product-item:last-child {
+      border: 0 !important;
+    }
+  }
+
+
+  .change-index {
+    z-index: 0 !important;
+  }
+
+
+ .moove-gdpr-info-bar-content button.mgbutton {
+    background: $primary-color !important;
+
+  }
+
+
+  .moove-gdpr-cookie-notice a:hover {
+    color: $primary-color !important;
+  }

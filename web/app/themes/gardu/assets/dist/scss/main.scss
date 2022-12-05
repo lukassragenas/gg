@@ -1,0 +1,155 @@
+@import 'variables'; 
+@import 'header'; 
+@import 'footer'; 
+@import 'home';
+@import 'woocommerce';
+@import 'shop-sidebar';
+@import 'chef-club';
+@import 'recipes';
+@import 'cart';
+@import 'checkout';
+@import 'yith';
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap');
+
+
+body {
+    font-family:'Nunito', sans-serif;
+}
+
+.active-link {
+    color: $primary-color;
+}
+
+html, body {
+    overflow-x: hidden !important;
+}
+
+.light-background {
+    background: $light-color !important;
+}
+
+.btn {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: 0 !important;
+}
+
+.text-grey {
+    color: #C4C4C4;
+}
+
+.single-content a {
+    color: $primary-color;
+}
+
+.py-80 {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.pt-80 {
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+.pb-80 {
+    padding-top: 40px !important;
+    padding-bottom: 80px !important;
+}
+
+.py-40 {
+    padding: 40px 0;
+}
+
+.pt-40 {
+    padding-top: 40px;
+}
+
+.pb-40 {
+    padding-bottom: 40px;
+}
+
+ul {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.display-none {
+    display: none !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none !important;
+    color: $secondary-color;
+    transition: .4s;
+}
+
+a:hover, .nav-link:hover, .dropdown-item:hover {
+    color: $primary-color;
+    transition: .4s;
+    background: none;
+}
+
+.first-letter {
+    color: $primary-color;
+}
+
+.max-width {
+    padding: 0 5%;
+}
+
+*:focus { 
+    outline: 0 !important;
+    box-shadow:
+      none;
+  }
+
+  .img-radius {
+    border-radius: 8px;
+  }
+
+.btn-primary {
+    border: 2px solid $primary-color !important;
+    border-radius: 4px;
+    color: $primary-color;
+    padding: 6px 24px !important;
+
+    &:hover {
+        background: $primary-color;
+        color: #fff;
+    }
+}
+
+
+
+@media only screen and (max-width : 992px)  {
+    h1 {
+        font-size: 32px !important;
+    }
+
+    .main-section .swiper-slide {
+        justify-content: center !important;
+    }
+    .wpcf7 input, .wpcf7 textarea {
+        width: 100% !important;
+    }
+    
+    .codedropz-upload-handler {
+        width: 100% !important;
+    }
+
+    .woocommerce .cart-collaterals, .woocommerce-page .cart-collaterals {
+        width: 100% !important;
+    }
+   }
+

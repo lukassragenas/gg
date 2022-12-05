@@ -1,0 +1,109 @@
+# Translation of Plugins - Duplicate Page - Development (trunk) in Lithuanian
+# This file is distributed under the same license as the Plugins - Duplicate Page - Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2019-07-27 11:16:06+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
+"Language: lt\n"
+"Project-Id-Version: Plugins - Duplicate Page - Development (trunk)\n"
+
+#: inc/admin-settings.php:51
+msgid "Gutenberg Editor"
+msgstr "Blokų redaktorius"
+
+#: inc/admin-settings.php:50
+msgid "Classic Editor"
+msgstr "Klasikinis redaktorius"
+
+#: inc/admin-settings.php:46
+msgid "Choose Editor"
+msgstr "Pasirinkite redaktorių"
+
+#: duplicatepage.php:316
+msgid "Duplicate This as "
+msgstr "Kopijuoti kaip"
+
+#: inc/admin-settings.php:63
+msgid "Pending"
+msgstr "Nepatvirtintas"
+
+#: inc/admin-settings.php:62
+msgid "Private"
+msgstr "Privatus"
+
+#: inc/admin-settings.php:61
+msgid "Publish"
+msgstr "Paskelbti"
+
+#: inc/admin-settings.php:60
+msgid "Draft"
+msgstr "Juodraštis"
+
+#. Author URI of the plugin
+msgid "https://profiles.wordpress.org/mndpsingh287/"
+msgstr "https://profiles.wordpress.org/mndpsingh287/"
+
+#. Author of the plugin
+msgid "mndpsingh287"
+msgstr "mndpsingh287"
+
+#. Description of the plugin
+msgid "Duplicate Posts, Pages and Custom Posts using single click."
+msgstr "Kopijuokite įrašus, puslapius ir savo sukurtus įrašų tipus vienu mygtuko paspaudimu."
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/duplicate-page/"
+msgstr "https://wordpress.org/plugins/duplicate-page/"
+
+#: duplicatepage.php:249 duplicatepage.php:265 duplicatepage.php:288
+msgid "Duplicate This"
+msgstr "Kopijuoti"
+
+#: duplicatepage.php:78
+msgid "Donate"
+msgstr "Paremti"
+
+#: duplicatepage.php:77
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: inc/admin-settings.php:81
+msgid "Add a suffix for duplicate or clone post as Copy, Clone etc. It will show after title."
+msgstr "Įrašykite žodį kuris bus naudojamas kopijos pavadinime, pavyzdžiui, Kopija, Dublikatas ar pan. "
+
+#: inc/admin-settings.php:78
+msgid "Duplicate Post Suffix"
+msgstr "Kopijų pavadinimo priedas"
+
+#. Plugin Name of the plugin
+#: duplicatepage.php:91 duplicatepage.php:345
+msgid "Duplicate Page"
+msgstr "Kopijavimas"
+
+#: inc/admin-settings.php:72
+msgid "To Duplicate Edit Screen"
+msgstr "Į kopijos redagavimą"
+
+#: inc/admin-settings.php:71
+msgid "To All Posts List"
+msgstr "Į sąrašą"
+
+#: inc/admin-settings.php:69
+msgid "Redirect to after click on <strong>Duplicate This Link</strong>"
+msgstr "Kur perkelti paspaudus <strong>Kopijuoti</strong>"
+
+#: inc/admin-settings.php:57
+msgid "Duplicate Post Status"
+msgstr "Kopijos statusas"
+
+#: inc/admin-settings.php:9
+msgid "Buy PRO"
+msgstr "Pirkti PRO versiją"
+
+#: inc/admin-settings.php:9
+msgid "Duplicate Page Settings "
+msgstr "Kopijavimo nustatymai"

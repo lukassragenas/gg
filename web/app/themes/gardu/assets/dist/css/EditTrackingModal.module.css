@@ -1,0 +1,73 @@
+.modal {
+  padding: 20px;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.empty {
+  text-align: center;
+  font-size: 16px;
+  color: #999c9f;
+}
+
+.items {
+  display: grid;
+  text-align: left;
+  grid-template-columns: 1fr auto;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  row-gap: 6px;
+  align-items: center;
+}
+.items thead,
+.items tbody,
+.items tr {
+  display: contents;
+}
+.items th:last-child,
+.items td:last-child {
+  text-align: right;
+}
+.items th {
+  margin-bottom: 8px;
+}
+
+.input {
+  color: #3c434a;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  row-gap: 10px;
+}
+.input label {
+  display: flex;
+  flex-direction: column;
+}
+.input a {
+  font-size: 12px;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+  margin-left: 2px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.input label {
+  margin-left: 2px;
+}
+.input select {
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  min-height: 30px;
+  font-size: 14px;
+  line-height: 28px;
+  padding: 0 8px;
+}
+.input input {
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 28px;
+  padding: 0 8px;
+}/*# sourceMappingURL=EditTrackingModal.module.css.map */

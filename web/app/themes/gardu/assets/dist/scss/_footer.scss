@@ -1,0 +1,39 @@
+footer {
+    background: $secondary-color;
+
+    a, p, h4, span {
+        color: #fff;
+    }
+
+    p {
+        margin: 0 !important;
+    }
+
+    path {
+        transition: .4s;
+    }
+
+    .social-col a:hover path {
+        stroke: $primary-color;
+        transition: .4s;
+    }
+
+    .contact-col a:hover path {
+        fill: $primary-color;
+        transition: .4s;
+    }
+
+    a:hover span {
+        color: $primary-color;
+        transition: .4s;
+    }
+}
+
+.divider {
+    color:#494949 !important;
+}
+
+.p-footer {
+    padding-top: 80px;
+    padding-bottom: 30px;
+}

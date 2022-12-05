@@ -1,0 +1,30 @@
+.archive #sidebar  {
+h3 {
+    font-size: 20px !important;
+}
+
+li{
+ padding: 1px !important;
+}
+
+.price_slider_amount {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-widget-content {
+    border: 0 !important;
+    border-radius: 50px !important;
+    background: $light-color !important;
+}
+
+.ui-state-active, .ui-state-hover {
+    background:$light-color !important;
+}
+
+.ui-widget-header {
+    background: $primary-color !important;
+}

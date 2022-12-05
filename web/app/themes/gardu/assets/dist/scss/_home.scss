@@ -1,0 +1,98 @@
+
+.main-section {
+  width: 100%;
+  height: 100%;
+}
+
+.main-title {
+  font-size: 36px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  color: $grey-color;
+}
+
+.main-section .swiper-slide {
+  
+  background-repeat: no-repeat !important;
+  height: 65vh;
+  display: flex;
+  align-items: center;
+  background-size: cover !important;
+
+}
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+
+}
+.product-section {
+  .swiper-slide {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    height: unset !important;
+
+  }
+
+  .swiper {
+    margin: 0 !important;
+  }    
+
+  .swiper-button-next, .swiper-button-prev {
+    position: inherit !important;
+    width: 36px;
+    height: 36px;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 0 !important;
+    position: relative;
+    overflow: hidden;
+    opacity: 1 !important;
+  }
+
+  .swiper-button-prev:not(.swiper-button-disabled), .swiper-button-next:not(.swiper-button-disabled)  {
+    background-size: cover;
+    path {
+      stroke: #fff;
+    }
+
+  }
+
+}
+
+
+.video-col iframe {
+  height: 50vh;
+}
+
+.chef-logo {
+
+  width: 240px;
+}
+
+.chef-background {
+  height: 100%;
+  width: 100%;
+  height: 40vh;
+  box-shadow:inset 0 0 0 2000px rgba(239, 239, 239, .65);
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  transition: .5s;
+}
+
+.home .chef-background:hover {
+  opacity: .6;
+  transition: .5s;
+}

@@ -1,0 +1,64 @@
+.yith-wcan-filters {
+    background: none !important;
+}
+
+.irs-bar, .irs-from, .irs-to  {
+    background: $primary-color !important;
+}
+
+.irs-handle {
+    border: $primary-color !important;
+    background: $primary-color !important;
+}
+
+.irs-from:before, .irs-to:before, .irs-single:before {
+    border-top-color: $primary-color !important;
+}
+
+.filter-items li {
+    margin: 5px 0 !important;
+}
+
+.filter-items a {
+    width: 100% !important;
+    padding: 2px 8px !important;
+    display: flex;
+    border-radius: 4px !important;
+    color: $secondary-color !important;
+   }
+
+   .item-count {
+    margin-left: 4px !important;
+    color: $secondary-color !important;
+ }
+
+
+.filter-items .active a {
+ background: $primary-color !important;
+ color: #fff !important;
+
+ .item-count {
+    color: #fff !important;
+ }
+}
+
+.toggle-handle {
+   top: 15px !important;
+}
+
+
+.filter-items .active .level-1 a  {
+    background: none !important;
+    color: $secondary-color !important;
+    .item-count {
+        color: $secondary-color !important;
+     }
+}
+
+.filter-checkbox label {
+    display: flex !important;
+}
+
+.yith-wcan-filters .yith-wcan-filter .filter-items.level-0 ul {
+    padding-left: 15px !important;
+}

@@ -1,0 +1,47 @@
+.wpcf7 input, .wpcf7 textarea {
+    background: none;
+    border: 1px solid rgba(0, 0, 0, .5);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    width: 50%;
+}
+
+.wpcf7 input {
+    height: 40px;
+}
+
+.wpcf7 textarea {
+    padding-top: 10px;
+}
+
+.codedropz-upload-handler {
+    width: 50%;
+}
+ .wpcf7-submit  {
+    line-height: 1 !important;
+    border: 0 !important;
+ }
+
+.contact-col .wpcf7 input, .contact-col .wpcf7 textarea {
+    width: 100% !important;
+}
+
+
+.delivery .has-vivid-red-color {
+    margin: 0 !important;
+}
+
+.delivery hr {
+    opacity: 1 !important;
+}
+
+.delivery li {
+    list-style: disc;
+    margin-left: 40px;
+    margin-bottom: 1rem;
+}
+
+.wp-block-image{
+        text-align: center !important;
+}
