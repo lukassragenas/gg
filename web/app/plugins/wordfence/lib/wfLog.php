@@ -10,6 +10,7 @@ class wfLog {
 	private $wp_version = '';
 	private $db = false;
 	private $googlePattern = '/\.(?:googlebot\.com|google\.[a-z]{2,3}|google\.[a-z]{2}\.[a-z]{2}|1e100\.net)$/i';
+	private $loginsTable, $statusTable;
 	private static $gbSafeCache = array();
 
 	/**
@@ -40,7 +41,7 @@ class wfLog {
 			$IP = wfUtils::getIP();
 		}
 		
-		if ($UA === false) {
+		if ($UA === false || $UA === null) {
 			$UA = (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
 		}
 		
@@ -89,11 +90,7 @@ class wfLog {
 		$this->wp_version = $wp_version;
 		$this->hitsTable = wfDB::networkTable('wfHits');
 		$this->loginsTable = wfDB::networkTable('wfLogins');
-		$this->blocksTable = wfBlock::blocksTable();
-		$this->lockOutTable = wfDB::networkTable('wfLockedOut');
-		$this->throttleTable = wfDB::networkTable('wfThrottleLog');
 		$this->statusTable = wfDB::networkTable('wfStatus');
-		$this->ipRangesTable = wfDB::networkTable('wfBlocksAdv');
 		
 		add_filter('determine_current_user', array($this, '_userIDDetermined'), 99, 1);
 	}
@@ -306,7 +303,7 @@ class wfLog {
 			} else if($type == 'ruser'){
 				$typeSQL = " and userID > 0 ";
 			} else {
-				wordfence::status(1, 'error', "Invalid log type to wfLog: $type");
+				wordfence::status(1, 'error', sprintf(/* translators: Error message. */ __("Invalid log type to wfLog: %s", 'wordfence'), $type));
 				return false;
 			}
 			array_unshift($sqlArgs, "select h.*, u.display_name from {$this->hitsTable} h
@@ -340,11 +337,20 @@ class wfLog {
 			$results = call_user_func_array(array($this->getDB(), 'querySelect'), $sqlArgs ); 
 
 		} else {
-			wordfence::status(1, 'error', "getHits got invalid hitType: $hitType");
+			wordfence::status(1, 'error', sprintf(/* translators: Error message. */ __("getHits got invalid hitType: %s", 'wordfence'), $hitType));
 			return false;
 		}
 		$this->processGetHitsResults($type, $results);
 		return $results;
+	}
+
+	private function processActionDescription($description) {
+		switch ($description) {
+		case wfWAFIPBlocksController::WFWAF_BLOCK_UAREFIPRANGE:
+			return __('UA/Hostname/Referrer/IP Range not allowed', 'wordfence');
+		default:
+			return $description;
+		}
 	}
 
 	/**
@@ -370,6 +376,8 @@ class wfLog {
 			$res['blocked'] = false;
 			$res['rangeBlocked'] = false;
 			$res['ipRangeID'] = -1;
+			if (array_key_exists('actionDescription', $res))
+				$res['actionDescription'] = $this->processActionDescription($res['actionDescription']);
 			
 			$ipBlock = wfBlock::findIPBlock($res['IP']);
 			if ($ipBlock !== false) {
@@ -552,7 +560,7 @@ class wfLog {
 			if ($b->matchRequest($IP, $userAgent, $referrer) !== wfBlock::MATCH_NONE) {
 				$b->recordBlock();
 				wfActivityReport::logBlockedIP($IP, null, 'advanced');
-				$this->currentRequest->actionDescription = 'UA/Referrer/IP Range not allowed';
+				$this->currentRequest->actionDescription = __('UA/Referrer/IP Range not allowed', 'wordfence');
 				$this->do503(3600, __("Advanced blocking in effect.", 'wordfence')); //exits
 			}
 		}
@@ -579,7 +587,7 @@ class wfLog {
 				wfConfig::inc('totalCountryBlocked');
 				
 				$this->initLogRequest();
-				$this->getCurrentRequest()->actionDescription = sprintf(__('blocked access via country blocking and redirected to URL (%s)', 'wordfence'), wfConfig::get('cbl_redirURL'));
+				$this->getCurrentRequest()->actionDescription = sprintf(/* translators: URL */ __('blocked access via country blocking and redirected to URL (%s)', 'wordfence'), wfConfig::get('cbl_redirURL'));
 				$this->getCurrentRequest()->statusCode = 503;
 				if (!$this->getCurrentRequest()->action) {
 					$this->currentRequest->action = 'blocked:wordfence';
@@ -640,7 +648,7 @@ class wfLog {
 					'reason' => $reason,
 					'duration' => $secsToGo,
 				), $alertCallback);
-				wordfence::status(2, 'info', sprintf(__('Blocking IP %s. %s', 'wordfence'), $IP, $reason));
+				wordfence::status(2, 'info', sprintf(/* translators: 1. IP address. 2. Description of firewall action. */ __('Blocking IP %1$s. %2$s', 'wordfence'), $IP, $reason));
 			}
 			else if ($action == 'throttle') { //Rate limited - throttle
 				$secsToGo = wfBlock::rateLimitThrottleDuration();
@@ -652,7 +660,7 @@ class wfLog {
 					'reason' => $reason,
 					'duration' => $secsToGo,
 				));
-				wordfence::status(2, 'info', sprintf(__('Throttling IP %s. %s', 'wordfence'), $IP, $reason));
+				wordfence::status(2, 'info', sprintf(/* translators: 1. IP address. 2. Description of firewall action. */ __('Throttling IP %1$s. %2$s', 'wordfence'), $IP, $reason));
 				wfConfig::inc('totalIPsThrottled');
 			}
 			$this->do503($secsToGo, $reason, false);
@@ -757,7 +765,7 @@ class wfLog {
 		$timeOffset = 3600 * get_option('gmt_offset');
 		foreach($results as &$rec){
 			//$rec['timeAgo'] = wfUtils::makeTimeAgo(time() - $rec['ctime']);
-			$rec['date'] = date('M d H:i:s', $rec['ctime'] + $timeOffset);
+			$rec['date'] = date('M d H:i:s', (int) $rec['ctime'] + $timeOffset);
 			$rec['msg'] = wp_kses_data( (string) $rec['msg']);
 		}
 		return $results;
@@ -766,7 +774,7 @@ class wfLog {
 		$results = $this->getDB()->querySelect("select ctime, level, type, msg from " . $this->statusTable . " where level = 10 order by ctime desc limit 100");
 		$timeOffset = 3600 * get_option('gmt_offset');
 		foreach($results as &$rec){
-			$rec['date'] = date('M d H:i:s', $rec['ctime'] + $timeOffset);
+			$rec['date'] = date('M d H:i:s', (int) $rec['ctime'] + $timeOffset);
 			if(strpos($rec['msg'], 'SUM_PREP:') === 0){
 				break;
 			}
@@ -1021,6 +1029,8 @@ class wfUserIPRange {
 	}
 
 	protected function _sanitizeIPRange($ip_string) {
+		if (!is_string($ip_string))
+			return null;
 		$ip_string = preg_replace('/\s/', '', $ip_string); //Strip whitespace
 		$ip_string = preg_replace('/[\\x{2013}-\\x{2015}]/u', '-', $ip_string); //Non-hyphen dashes to hyphen
 		$ip_string = strtolower($ip_string);
@@ -1283,6 +1293,9 @@ class wfRequestModel extends wfModel {
 				}
 			}
 		}
+		else {
+			$actionData = array();
+		}
 		return $actionData;
 	}
 
@@ -1446,8 +1459,8 @@ class wfLiveTrafficQuery {
 					continue;
 				}
 			}
-			
-			$row['actionData'] = (array) json_decode($row['actionData'], true);
+
+			$row['actionData'] = $row['actionData'] === null ? array() : (array) json_decode($row['actionData'], true);
 		}
 		return array_values($results);
 	}
@@ -1982,7 +1995,7 @@ class wfErrorLogHandler {
 		if ($errorLogs === null) {
 			$searchPaths = array(ABSPATH, ABSPATH . 'wp-admin', ABSPATH . 'wp-content');
 			
-			$homePath = get_home_path();
+			$homePath = wfUtils::getHomePath();
 			if (!in_array($homePath, $searchPaths)) {
 				$searchPaths[] = $homePath;
 			}

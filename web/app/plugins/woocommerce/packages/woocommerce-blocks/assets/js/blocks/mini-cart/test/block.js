@@ -20,7 +20,7 @@ import userEvent from '@testing-library/user-event';
  * Internal dependencies
  */
 import Block from '../block';
-import { defaultCartState } from '../../../data/cart/default-state';
+import { defaultCartState } from '../../../data/default-states';
 
 const MiniCartBlock = ( props ) => (
 	<SlotFillProvider>

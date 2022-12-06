@@ -4,6 +4,7 @@
 import { renderParentBlock } from '@woocommerce/atomic-utils';
 import Drawer from '@woocommerce/base-components/drawer';
 import { useStoreCart } from '@woocommerce/base-context/hooks';
+import { useTypographyProps } from '@woocommerce/base-hooks';
 import { translateJQueryEventToNative } from '@woocommerce/base-utils';
 import { getRegisteredBlockComponents } from '@woocommerce/blocks-registry';
 import {
@@ -204,6 +205,8 @@ const MiniCartBlock = ( attributes: Props ): JSX.Element => {
 		color: style?.color?.text,
 	};
 
+	const typographyProps = useTypographyProps( attributes );
+
 	return (
 		<>
 			<button
@@ -218,7 +221,10 @@ const MiniCartBlock = ( attributes: Props ): JSX.Element => {
 				aria-label={ ariaLabel }
 			>
 				{ ! hasHiddenPrice && (
-					<span className="wc-block-mini-cart__amount">
+					<span
+						className="wc-block-mini-cart__amount"
+						style={ typographyProps.style }
+					>
 						{ formatPrice(
 							subTotal,
 							getCurrencyFromPriceResponse( cartTotals )

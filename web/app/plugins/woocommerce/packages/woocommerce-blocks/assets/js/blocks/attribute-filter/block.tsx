@@ -14,8 +14,8 @@ import {
 	useCollectionData,
 } from '@woocommerce/base-context/hooks';
 import { useCallback, useEffect, useState, useMemo } from '@wordpress/element';
+import CheckboxList from '@woocommerce/base-components/checkbox-list';
 import Label from '@woocommerce/base-components/filter-element-label';
-import FilterResetButton from '@woocommerce/base-components/filter-reset-button';
 import FilterSubmitButton from '@woocommerce/base-components/filter-submit-button';
 import isShallowEqual from '@wordpress/is-shallow-equal';
 import { decodeEntities } from '@wordpress/html-entities';
@@ -29,7 +29,6 @@ import {
 	isString,
 	objectHasProp,
 } from '@woocommerce/types';
-import { Icon, chevronDown } from '@wordpress/icons';
 import {
 	changeUrl,
 	PREFIX_QUERY_ARG_FILTER_TYPE,
@@ -37,8 +36,7 @@ import {
 } from '@woocommerce/utils';
 import { difference } from 'lodash';
 import FormTokenField from '@woocommerce/base-components/form-token-field';
-import FilterTitlePlaceholder from '@woocommerce/base-components/filter-placeholder';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 /**
  * Internal dependencies
@@ -54,11 +52,8 @@ import {
 	isQueryArgsEqual,
 	parseTaxonomyToGenerateURL,
 	formatSlug,
-	generateUniqueId,
 } from './utils';
 import { BlockAttributes, DisplayOption } from './types';
-import CheckboxFilter from './checkbox-filter';
-import { useSetWraperVisibility } from '../filter-wrapper/context';
 
 /**
  * Formats filter values into a string for the URL parameters needed for filtering PHP templates.
@@ -115,13 +110,6 @@ const AttributeFilterBlock = ( {
 	);
 
 	const [ checked, setChecked ] = useState( initialFilters );
-
-	/*
-		FormTokenField forces the dropdown to reopen on reset, so we create a unique ID to use as the components key.
-		This will force the component to remount on reset when we change this value.
-		More info: https://github.com/woocommerce/woocommerce-blocks/pull/6920#issuecomment-1222402482
-	 */
-	const [ remountKey, setRemountKey ] = useState( generateUniqueId() );
 
 	const [ displayedOptions, setDisplayedOptions ] = useState<
 		DisplayOption[]
@@ -239,7 +227,6 @@ const AttributeFilterBlock = ( {
 			.filter( ( option ): option is DisplayOption => !! option );
 
 		setDisplayedOptions( newOptions );
-		setRemountKey( generateUniqueId() );
 	}, [
 		attributeObject?.taxonomy,
 		attributeTerms,
@@ -444,7 +431,7 @@ const AttributeFilterBlock = ( {
 	] );
 
 	/**
-	 * Try to get the current attribute filter from the URl.
+	 * Try get the current attribute filter from the URl.
 	 */
 	useEffect( () => {
 		if ( hasSetFilterDefaultsFromUrl || attributeTermsLoading ) {
@@ -469,10 +456,7 @@ const AttributeFilterBlock = ( {
 		filteringForPhpTemplate,
 	] );
 
-	const setWrapperVisibility = useSetWraperVisibility();
-
 	if ( ! hasFilterableProducts ) {
-		setWrapperVisibility( false );
 		return null;
 	}
 
@@ -490,7 +474,6 @@ const AttributeFilterBlock = ( {
 				</Notice>
 			);
 		}
-		setWrapperVisibility( false );
 		return null;
 	}
 
@@ -500,192 +483,137 @@ const AttributeFilterBlock = ( {
 				<Notice status="warning" isDismissible={ false }>
 					<p>
 						{ __(
-							'There are no products with the selected attributes.',
+							'The selected attribute does not have any term assigned to products.',
 							'woo-gutenberg-products-block'
 						) }
 					</p>
 				</Notice>
 			);
 		}
+		return null;
 	}
 
 	const TagName =
 		`h${ blockAttributes.headingLevel }` as keyof JSX.IntrinsicElements;
-	const termsLoading = ! blockAttributes.isPreview && attributeTermsLoading;
-	const countsLoading = ! blockAttributes.isPreview && filteredCountsLoading;
-
-	const isLoading =
-		( termsLoading || countsLoading ) && displayedOptions.length === 0;
-
-	if ( ! isLoading && displayedOptions.length === 0 ) {
-		setWrapperVisibility( false );
-		return null;
-	}
-
-	const heading = (
-		<TagName className="wc-block-attribute-filter__title">
-			{ blockAttributes.heading }
-		</TagName>
-	);
-
-	const filterHeading = isLoading ? (
-		<FilterTitlePlaceholder>{ heading }</FilterTitlePlaceholder>
-	) : (
-		heading
-	);
-
-	setWrapperVisibility( true );
+	const isLoading = ! blockAttributes.isPreview && attributeTermsLoading;
+	const isDisabled = ! blockAttributes.isPreview && filteredCountsLoading;
 
 	return (
 		<>
-			{ ! isEditor && blockAttributes.heading && filterHeading }
-			<div
-				className={ classnames(
-					'wc-block-attribute-filter',
-					`style-${ blockAttributes.displayStyle }`
+			{ ! isEditor &&
+				blockAttributes.heading &&
+				displayedOptions.length > 0 && (
+					<TagName className="wc-block-attribute-filter__title">
+						{ blockAttributes.heading }
+					</TagName>
 				) }
+			<div
+				className={ `wc-block-attribute-filter style-${ blockAttributes.displayStyle }` }
 			>
 				{ blockAttributes.displayStyle === 'dropdown' ? (
-					<>
-						<FormTokenField
-							key={ remountKey }
-							className={ classnames( borderProps.className, {
-								'single-selection': ! multiple,
-								'is-loading': isLoading,
-							} ) }
-							style={ {
-								...borderProps.style,
-								borderStyle: 'none',
-							} }
-							suggestions={ displayedOptions
-								.filter(
+					<FormTokenField
+						className={ classNames( borderProps.className, {
+							'single-selection': ! multiple,
+						} ) }
+						style={ { ...borderProps.style, borderStyle: 'none' } }
+						suggestions={ displayedOptions
+							.filter(
+								( option ) => ! checked.includes( option.value )
+							)
+							.map( ( option ) => option.formattedValue ) }
+						disabled={ isDisabled }
+						placeholder={ sprintf(
+							/* translators: %s attribute name. */
+							__( 'Any %s', 'woo-gutenberg-products-block' ),
+							attributeObject.label
+						) }
+						onChange={ ( tokens: string[] ) => {
+							if ( ! multiple && tokens.length > 1 ) {
+								tokens = [ tokens[ tokens.length - 1 ] ];
+							}
+
+							tokens = tokens.map( ( token ) => {
+								const displayOption = displayedOptions.find(
 									( option ) =>
-										! checked.includes( option.value )
-								)
-								.map( ( option ) => option.formattedValue ) }
-							disabled={ isLoading }
-							placeholder={ sprintf(
-								/* translators: %s attribute name. */
+										option.formattedValue === token
+								);
+
+								return displayOption
+									? displayOption.value
+									: token;
+							} );
+
+							const added = difference( tokens, checked );
+
+							if ( added.length === 1 ) {
+								return onChange( added[ 0 ] );
+							}
+
+							const removed = difference( checked, tokens );
+							if ( removed.length === 1 ) {
+								onChange( removed[ 0 ] );
+							}
+						} }
+						value={ checked }
+						displayTransform={ ( value: string ) => {
+							const result = displayedOptions.find( ( option ) =>
+								[
+									option.value,
+									option.formattedValue,
+								].includes( value )
+							);
+							return result ? result.textLabel : value;
+						} }
+						saveTransform={ formatSlug }
+						messages={ {
+							added: sprintf(
+								/* translators: %s is the attribute label. */
 								__(
-									'Select %s',
+									'%s filter added.',
 									'woo-gutenberg-products-block'
 								),
 								attributeObject.label
-							) }
-							onChange={ ( tokens: string[] ) => {
-								if ( ! multiple && tokens.length > 1 ) {
-									tokens = [ tokens[ tokens.length - 1 ] ];
-								}
-
-								tokens = tokens.map( ( token ) => {
-									const displayOption = displayedOptions.find(
-										( option ) =>
-											option.formattedValue === token
-									);
-
-									return displayOption
-										? displayOption.value
-										: token;
-								} );
-
-								const added = difference( tokens, checked );
-
-								if ( added.length === 1 ) {
-									return onChange( added[ 0 ] );
-								}
-
-								const removed = difference( checked, tokens );
-								if ( removed.length === 1 ) {
-									onChange( removed[ 0 ] );
-								}
-							} }
-							value={ checked }
-							displayTransform={ ( value: string ) => {
-								const result = displayedOptions.find(
-									( option ) =>
-										[
-											option.value,
-											option.formattedValue,
-										].includes( value )
-								);
-								return result ? result.textLabel : value;
-							} }
-							saveTransform={ formatSlug }
-							messages={ {
-								added: sprintf(
-									/* translators: %s is the attribute label. */
-									__(
-										'%s filter added.',
-										'woo-gutenberg-products-block'
-									),
-									attributeObject.label
+							),
+							removed: sprintf(
+								/* translators: %s is the attribute label. */
+								__(
+									'%s filter removed.',
+									'woo-gutenberg-products-block'
 								),
-								removed: sprintf(
-									/* translators: %s is the attribute label. */
-									__(
-										'%s filter removed.',
-										'woo-gutenberg-products-block'
-									),
-									attributeObject.label
+								attributeObject.label
+							),
+							remove: sprintf(
+								/* translators: %s is the attribute label. */
+								__(
+									'Remove %s filter.',
+									'woo-gutenberg-products-block'
 								),
-								remove: sprintf(
-									/* translators: %s is the attribute label. */
-									__(
-										'Remove %s filter.',
-										'woo-gutenberg-products-block'
-									),
-									attributeObject.label.toLocaleLowerCase()
+								attributeObject.label.toLocaleLowerCase()
+							),
+							__experimentalInvalid: sprintf(
+								/* translators: %s is the attribute label. */
+								__(
+									'Invalid %s filter.',
+									'woo-gutenberg-products-block'
 								),
-								__experimentalInvalid: sprintf(
-									/* translators: %s is the attribute label. */
-									__(
-										'Invalid %s filter.',
-										'woo-gutenberg-products-block'
-									),
-									attributeObject.label.toLocaleLowerCase()
-								),
-							} }
-						/>
-						{ multiple && (
-							<Icon icon={ chevronDown } size={ 30 } />
-						) }
-					</>
+								attributeObject.label.toLocaleLowerCase()
+							),
+						} }
+					/>
 				) : (
-					<CheckboxFilter
+					<CheckboxList
+						className={ 'wc-block-attribute-filter-list' }
 						options={ displayedOptions }
 						checked={ checked }
 						onChange={ onChange }
 						isLoading={ isLoading }
-						isDisabled={ isLoading }
-					/>
-				) }
-			</div>
-
-			<div className="wc-block-attribute-filter__actions">
-				{ checked.length > 0 && ! isLoading && (
-					<FilterResetButton
-						onClick={ () => {
-							setChecked( [] );
-							setRemountKey( generateUniqueId() );
-							if ( hasSetFilterDefaultsFromUrl ) {
-								onSubmit( [] );
-							}
-						} }
-						screenReaderLabel={ __(
-							'Reset attribute filter',
-							'woo-gutenberg-products-block'
-						) }
+						isDisabled={ isDisabled }
 					/>
 				) }
 				{ blockAttributes.showFilterButton && (
 					<FilterSubmitButton
 						className="wc-block-attribute-filter__button"
-						isLoading={ isLoading }
-						disabled={
-							termsLoading ||
-							countsLoading ||
-							checked.length === 0
-						}
+						disabled={ isLoading || isDisabled }
 						onClick={ () => onSubmit( checked ) }
 					/>
 				) }

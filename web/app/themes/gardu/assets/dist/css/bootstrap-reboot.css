@@ -1,5 +1,5 @@
 /*!
- * Bootstrap Reboot v5.2.1 (https://getbootstrap.com/)
+ * Bootstrap Reboot v5.2.3 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
@@ -164,10 +164,10 @@ p {
 
 abbr[title] {
   -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
+  text-decoration: underline dotted;
   cursor: help;
   -webkit-text-decoration-skip-ink: none;
-          text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
 }
 
 address {
@@ -483,4 +483,6 @@ progress {
 
 [hidden] {
   display: none !important;
-}/*# sourceMappingURL=bootstrap-reboot.css.map */
+}
+
+/*# sourceMappingURL=bootstrap-reboot.css.map */

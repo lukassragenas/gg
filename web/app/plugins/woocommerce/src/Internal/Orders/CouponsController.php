@@ -2,8 +2,6 @@
 
 namespace Automattic\WooCommerce\Internal\Orders;
 
-use Exception;
-
 /**
  * Class with methods for handling order coupons.
  */

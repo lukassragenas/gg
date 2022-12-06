@@ -57,13 +57,13 @@ const GridLayoutControl = ( {
 			/>
 			<ToggleControl
 				label={ __(
-					'Align the last block to the bottom',
+					'Align Last Block',
 					'woocommerce'
 				) }
 				help={
 					alignButtons
 						? __(
-								'Align the last block to the bottom.',
+								'The last inner block will be aligned vertically.',
 								'woocommerce'
 						  )
 						: __(

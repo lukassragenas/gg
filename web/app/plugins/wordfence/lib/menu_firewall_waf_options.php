@@ -28,14 +28,19 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 			if (window.location.hash) {
 				var hashes = WFAD.parseHashes();
 				var hash = hashes[hashes.length - 1];
-				var block = $('.wf-block[data-persistence-key="' + hash + '"]');
+				var target = $("#" + hash);
+				var block = target.parents('.wf-block');
+				if (!block.length) {
+					block = $('.wf-block[data-persistence-key="' + hash + '"]');
+					target = block;
+				}
 				if (block.length) {
 					if (!block.hasClass('wf-active')) {
 						block.find('.wf-block-content').slideDown({
 							always: function() {
 								block.addClass('wf-active');
 								$('html, body').animate({
-									scrollTop: block.offset().top - 100
+									scrollTop: target.offset().top - 100
 								}, 1000);
 							}
 						});
@@ -44,7 +49,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 					}
 					else {
 						$('html, body').animate({
-							scrollTop: block.offset().top - 100
+							scrollTop: target.offset().top - 100
 						}, 1000);
 					}
 
@@ -75,7 +80,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 			<?php
 			echo wfView::create('options/block-controls', array(
 				'backLink' => $backPage->url(),
-				'backLabelHTML' => sprintf(__('<span class="wf-hidden-xs">Back to </span>%s', 'wordfence'), $backPage->label()), 
+				'backLabelHTML' => wp_kses(sprintf(__('<span class="wf-hidden-xs">Back to </span>%s', 'wordfence'), $backPage->label()), array('span'=>array('class'=>array()))),
 				'restoreDefaultsSection' => wfConfig::OPTIONS_TYPE_FIREWALL,
 				'restoreDefaultsMessage' => __('Are you sure you want to restore the default Firewall settings? This will undo any custom changes you have made to the options on this page. If you have manually disabled any rules or added any custom allowlisted URLs, those changes will not be overwritten.', 'wordfence'),
 			))->render();
@@ -85,11 +90,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 </div>
 <div class="wf-options-controls-spacer"></div>
 <?php
-if (wfOnboardingController::shouldShowAttempt3()) {
-	echo wfView::create('onboarding/disabled-overlay')->render();
-	echo wfView::create('onboarding/banner')->render();
-}
-else if (wfConfig::get('touppPromptNeeded')) {
+if (!wfOnboardingController::shouldShowAttempt3() && wfConfig::get('touppPromptNeeded')) {
 	echo wfView::create('gdpr/disabled-overlay')->render();
 	echo wfView::create('gdpr/banner')->render();
 }
@@ -121,7 +122,7 @@ else if (wfConfig::get('touppPromptNeeded')) {
 					echo wfView::create('common/section-title', array(
 						'title' => __('Firewall Options', 'wordfence'),
 						'helpLink' => wfSupportController::supportURL(wfSupportController::ITEM_FIREWALL_WAF),
-						'helpLabelHTML' => __('Learn more<span class="wf-hidden-xs"> about the Firewall</span>', 'wordfence'),
+						'helpLabelHTML' => wp_kses(__('Learn more<span class="wf-hidden-xs"> about the Firewall</span>', 'wordfence'), array('span'=>array('class'=>array()))),
 						'showIcon' => true,
 					))->render();
 					?>

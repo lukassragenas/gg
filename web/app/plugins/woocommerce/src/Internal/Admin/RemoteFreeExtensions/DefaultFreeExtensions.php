@@ -39,7 +39,6 @@ class DefaultFreeExtensions {
 					self::get_plugin( 'mailpoet' ),
 					self::get_plugin( 'google-listings-and-ads' ),
 					self::get_plugin( 'facebook-for-woocommerce' ),
-					self::get_plugin( 'tiktok-for-business:alt' ),
 				],
 			],
 			[
@@ -668,18 +667,6 @@ class DefaultFreeExtensions {
 						],
 					],
 				],
-				'is_built_by_wc' => false,
-			],
-			'tiktok-for-business:alt'               => [
-				'name'           => __( 'TikTok for WooCommerce', 'woocommerce' ),
-				'image_url'      => plugins_url( '/assets/images/onboarding/tiktok.svg', WC_PLUGIN_FILE ),
-				'description'    => sprintf(
-					/* translators: 1: opening product link tag. 2: closing link tag */
-					__( 'Create ad campaigns and reach one billion global users with %1$sTikTok for WooCommerce%2$s', 'woocommerce' ),
-					'<a href="https://woocommerce.com/products/tiktok-for-woocommerce" target="_blank">',
-					'</a>'
-				),
-				'manage_url'     => 'admin.php?page=tiktok',
 				'is_built_by_wc' => false,
 			],
 		);

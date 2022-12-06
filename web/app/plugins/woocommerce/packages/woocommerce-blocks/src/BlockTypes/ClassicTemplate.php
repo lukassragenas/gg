@@ -40,12 +40,12 @@ class ClassicTemplate extends AbstractDynamicBlock {
 	/**
 	 * Render method for the Classic Template block. This method will determine which template to render.
 	 *
-	 * @param array    $attributes Block attributes.
-	 * @param string   $content    Block content.
-	 * @param WP_Block $block      Block instance.
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 *
 	 * @return string | void Rendered block type output.
 	 */
-	protected function render( $attributes, $content, $block ) {
+	protected function render( $attributes, $content ) {
 		if ( ! isset( $attributes['template'] ) ) {
 			return;
 		}

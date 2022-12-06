@@ -16,8 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package WooCommerce
  */
 class WC_CLI_COM_Command {
-	const APPLICATION_PASSWORD_SECTION_URL = 'https://woocommerce.com/my-account/#application-passwords';
-
 	/**
 	 * Registers a commands for managing WooCommerce.com extensions.
 	 */
@@ -112,12 +110,12 @@ class WC_CLI_COM_Command {
 	 */
 	public static function disconnect( array $args, array $assoc_args ) {
 		if ( ! WC_Helper::is_site_connected() ) {
-			WP_CLI::error( __( 'Your store is not connected to WooCommerce.com. Run `wp wc com connect` command.', 'woocommerce' ) );
+			WP_CLI::error( 'Your store is not connected to WooCommerce.com. Run `wp wc com connect` command.' );
 		}
 
-		WP_CLI::confirm( __( 'Are you sure you want to disconnect your store from WooCommerce.com?', 'woocommerce' ), $assoc_args );
+		WP_CLI::confirm( 'Are you sure you want to disconnect your store from WooCommerce.com?', $assoc_args );
 		WC_Helper::disconnect();
-		WP_CLI::success( __( 'You have successfully disconnected your store from WooCommerce.com', 'woocommerce' ) );
+		WP_CLI::success( 'You have successfully disconnected your store from WooCommerce.com' );
 	}
 
 	/**
@@ -154,21 +152,20 @@ class WC_CLI_COM_Command {
 			if ( $force ) {
 				WC_Helper::disconnect();
 			} else {
-				WP_CLI::error( __( 'Your store is already connected.', 'woocommerce' ) );
+				WP_CLI::error( 'Your store is already connected.' );
 
 				return;
 			}
 		}
 
+		// phpcs:ignore
+		// @todo add URL to application password section
 		if ( empty( $password ) ) {
-			// translators: %s is the URL for the application-password section in WooCommerce.com.
-			WP_CLI::log( sprintf( __( 'If you don\'t have an application password (not your account password), generate a password from %s', 'woocommerce' ), esc_url( self::APPLICATION_PASSWORD_SECTION_URL ) ) );
-			$password = self::ask( __( 'Connection password:', 'woocommerce' ) );
+			$password = self::ask( 'Connection password:' );
 		}
 		$password = sanitize_text_field( $password );
 		if ( empty( $password ) ) {
-			// translators: %s is the URL for the application-password section in WooCommerce.com.
-			WP_CLI::error( sprintf( __( 'Invalid password. Generate a new one from %s.', 'woocommerce' ), esc_url( self::APPLICATION_PASSWORD_SECTION_URL ) ) );
+			WP_CLI::error( 'Invalid password.' );
 		}
 
 		$auth = WC_Helper::connect_with_password( $password );
@@ -177,7 +174,7 @@ class WC_CLI_COM_Command {
 		}
 
 		if ( WC_Helper::is_site_connected() ) {
-			WP_CLI::success( __( 'Store connected successfully.', 'woocommerce' ) );
+			WP_CLI::success( 'Store connected successfully.' );
 		}
 	}
 

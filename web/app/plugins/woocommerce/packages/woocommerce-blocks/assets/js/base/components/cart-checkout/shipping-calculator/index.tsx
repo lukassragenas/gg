@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import type { ShippingAddress } from '@woocommerce/settings';
+import type { EnteredAddress } from '@woocommerce/settings';
 import { useCustomerData } from '@woocommerce/base-context/hooks';
 
 /**
@@ -11,8 +11,8 @@ import ShippingCalculatorAddress from './address';
 import './style.scss';
 
 interface ShippingCalculatorProps {
-	onUpdate?: ( newAddress: ShippingAddress ) => void;
-	addressFields?: Partial< keyof ShippingAddress >[];
+	onUpdate?: ( newAddress: EnteredAddress ) => void;
+	addressFields?: Partial< keyof EnteredAddress >[];
 }
 
 const ShippingCalculator = ( {

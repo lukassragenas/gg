@@ -30,7 +30,7 @@ import './style.scss';
  * @param {string} [props.align]     Alignment of the badge.
  * @return {*} The component.
  */
-export const Block = ( props ) => {
+const Block = ( props ) => {
 	const { className, align } = props;
 	const { parentClassName } = useInnerBlockLayoutContext();
 	const { product } = useProductDataContext();

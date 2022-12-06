@@ -73,6 +73,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-alertEmails' => __('Where to email alerts', 'wordfence'),
 				'wf-option-howGetIPs' => __('How does Wordfence get IPs', 'wordfence'),
 				'wf-option-howGetIPs-trusted-proxies' => __('Trusted Proxies', 'wordfence'),
+				'wf-option-enableRemoteIpLookup' => __('Look up visitor IP locations via Wordfence servers', 'wordfence'),
 				'wf-option-other-hideWPVersion' => __('Hide WordPress version', 'wordfence'),
 				'wf-option-disableCodeExecutionUploads' => __('Disable Code Execution for Uploads directory', 'wordfence'),
 				'wf-option-liveActivityPauseEnabled' => __('Pause live updates when window loses focus', 'wordfence'),
@@ -93,9 +94,9 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-alertOn-loginLockout' => __('Alert when someone is locked out from login', 'wordfence'),
 				'wf-option-alertOn-lostPasswdForm' => __('Alert when the "lost password" form is used for a valid user', 'wordfence'),
 				'wf-option-alertOn-adminLogin' => __('Alert me when someone with administrator access signs in', 'wordfence'),
-				'wf-option-alertOn-firstAdminLoginOnly' => __('Only alert me when that administrator signs in from a new device or location', 'wordfence'),
+				'wf-option-alertOn-firstAdminLoginOnly' => __('Only alert me when that administrator signs in from a new device', 'wordfence'),
 				'wf-option-alertOn-nonAdminLogin' => __('Alert me when a non-admin user signs in', 'wordfence'),
-				'wf-option-alertOn-firstNonAdminLoginOnly' => __('Only alert me when that user signs in from a new device or location', 'wordfence'),
+				'wf-option-alertOn-firstNonAdminLoginOnly' => __('Only alert me when that user signs in from a new device', 'wordfence'),
 				'wf-option-wafAlertOnAttacks' => __('Alert me when there\'s a large increase in attacks detected on my site', 'wordfence'),
 				'wf-option-alert-maxHourly' => __('Maximum email alerts to send per hour', 'wordfence'),
 				'wf-option-email-summary-enabled' => __('Enable email summary', 'wordfence'),
@@ -176,6 +177,8 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 				'wf-option-maxExecutionTime' => __('Maximum execution time for each scan stage', 'wordfence'),
 				'wf-option-scan-exclude' => __('Exclude files from scan that match these wildcard patterns', 'wordfence'),
 				'wf-option-scan-include-extra' => __('Additional scan signatures', 'wordfence'),
+				'wf-option-scan-force-ipv4-start' => __('Use only IPv4 to start scans', 'wordfence'),
+				'wf-option-scan-max-resume-attempts' => __('Maximum number of attempts to resume each scan stage', 'wordfence'),
 				'wf-option-liveTrafficEnabled' => __('Traffic logging mode (Live Traffic)', 'wordfence'),
 				'wf-option-liveTraf-ignorePublishers' => __('Don\'t log signed-in users with publishing access', 'wordfence'),
 				'wf-option-liveTraf-ignoreUsers' => __('List of comma separated usernames to ignore', 'wordfence'),
@@ -206,11 +209,7 @@ if (isset($_GET['source']) && wfPage::isValidPage($_GET['source'])) {
 </div>
 <div class="wf-options-controls-spacer"></div>
 <?php
-if (wfOnboardingController::shouldShowAttempt3()) {
-	echo wfView::create('onboarding/disabled-overlay')->render();
-	echo wfView::create('onboarding/banner')->render();
-}
-else if (wfConfig::get('touppPromptNeeded')) {
+if (!wfOnboardingController::shouldShowAttempt3() && wfConfig::get('touppPromptNeeded')) {
 	echo wfView::create('gdpr/disabled-overlay')->render();
 	echo wfView::create('gdpr/banner')->render();
 }
@@ -265,7 +264,7 @@ else if (wfConfig::get('touppPromptNeeded')) {
 					))->render();
 					?>
 					
-					<p><?php _e('These options are also available throughout the plugin pages, in the relevant sections. This page is provided for easier setup for experienced Wordfence users.', 'wordfence'); ?></p>
+					<p><?php esc_html_e('These options are also available throughout the plugin pages, in the relevant sections. This page is provided for easier setup for experienced Wordfence users.', 'wordfence'); ?></p>
 					
 					<?php
 					echo wfView::create('common/section-subtitle', array(
@@ -402,7 +401,7 @@ else if (wfConfig::get('touppPromptNeeded')) {
 								<div class="wf-block-header">
 									<div class="wf-block-header-content">
 										<div class="wf-block-title">
-											<strong><?php _e('Import/Export Options', 'wordfence'); ?></strong>
+											<strong><?php esc_html_e('Import/Export Options', 'wordfence'); ?></strong>
 										</div>
 									</div>
 								</div>
@@ -410,9 +409,9 @@ else if (wfConfig::get('touppPromptNeeded')) {
 									<ul class="wf-block-list">
 										<li>
 											<ul class="wf-flex-horizontal wf-flex-vertical-xs wf-flex-full-width wf-add-top wf-add-bottom">
-												<li><?php _e('Importing and exporting of options is available on the Tools page', 'wordfence'); ?></li>
+												<li><?php esc_html_e('Importing and exporting of options is available on the Tools page', 'wordfence'); ?></li>
 												<li class="wf-right wf-left-xs wf-padding-add-top-xs-small">
-													<a href="<?php echo esc_url(network_admin_url('admin.php?page=WordfenceTools&subpage=importexport')); ?>" class="wf-btn wf-btn-primary wf-btn-callout-subtle" id="wf-export-options"><?php _e('Import/Export Options', 'wordfence'); ?></a>
+													<a href="<?php echo esc_url(network_admin_url('admin.php?page=WordfenceTools&subpage=importexport')); ?>" class="wf-btn wf-btn-primary wf-btn-callout-subtle" id="wf-export-options"><?php esc_html_e('Import/Export Options', 'wordfence'); ?></a>
 												</li>
 											</ul>
 											<input type="hidden" id="wf-option-exportOptions">

@@ -1,17 +1,13 @@
-.wc-blocks-sidebar-compatibility-notice.is-dismissible {
+.wc-blocks-sidebar-compatibility-notice {
+	border-top: 1px solid $gray-200;
+}
+
+.wc-blocks-sidebar-compatibility-notice__notice.components-notice.is-dismissible {
 	margin: 0;
-	padding-right: 16px;
-	.components-notice__dismiss {
-		min-width: 24px;
-	}
+	padding: $gap;
+	padding-right: $gap-small;
+
 	.components-notice__content {
-		margin: 4px 0;
-	}
-	svg {
-		width: 16px;
-		height: 16px;
-	}
-	&.is-hidden {
-		display: none;
+		margin-right: 0;
 	}
 }

@@ -472,11 +472,9 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 			<p class="has-text-color has-text-align-center">' . __( 'Write a short welcome message here', 'woocommerce' ) . '</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-			<div class="wp-block-buttons"><!-- wp:button -->
-			<div class="wp-block-button"><a class="wp-block-button__link" href="' . esc_url( $shop_url ) . '">' . __( 'Go shopping', 'woocommerce' ) . '</a></div>
-			<!-- /wp:button --></div>
-			<!-- /wp:buttons --></div></div>
+			<!-- wp:button {"align":"center"} -->
+			<div class="wp-block-button aligncenter"><a href="' . esc_url( $shop_url ) . '" class="wp-block-button__link">' . __( 'Go shopping', 'woocommerce' ) . '</a></div>
+			<!-- /wp:button --></div></div>
 			<!-- /wp:cover -->';
 		}
 
@@ -489,11 +487,9 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 		<p class="has-text-color has-text-align-center">' . __( 'Write a short welcome message here', 'woocommerce' ) . '</p>
 		<!-- /wp:paragraph -->
 
-		<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
-		<div class="wp-block-buttons"><!-- wp:button -->
-		<div class="wp-block-button"><a class="wp-block-button__link" href="' . esc_url( $shop_url ) . '">' . __( 'Go shopping', 'woocommerce' ) . '</a></div>
-		<!-- /wp:button --></div>
-		<!-- /wp:buttons --></div></div>
+		<!-- wp:button {"align":"center"} -->
+		<div class="wp-block-button aligncenter"><a href="' . esc_url( $shop_url ) . '" class="wp-block-button__link">' . __( 'Go shopping', 'woocommerce' ) . '</a></div>
+		<!-- /wp:button --></div></div>
 		<!-- /wp:cover -->';
 	}
 

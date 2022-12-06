@@ -39,8 +39,7 @@ class WC_Admin_Addons {
 			$raw_featured = wp_safe_remote_get(
 				'https://woocommerce.com/wp-json/wccom-extensions/1.0/featured',
 				array(
-					'headers'    => $headers,
-					'user-agent' => 'WooCommerce/' . WC()->version . '; ' . get_bloginfo( 'url' ),
+					'headers' => $headers,
 				)
 			);
 
@@ -84,8 +83,7 @@ class WC_Admin_Addons {
 			$raw_featured = wp_safe_remote_get(
 				'https://woocommerce.com/wp-json/wccom-extensions/2.0/featured' . $parameter_string,
 				array(
-					'headers'    => $headers,
-					'user-agent' => 'WooCommerce/' . WC()->version . '; ' . get_bloginfo( 'url' ),
+					'headers' => $headers,
 				)
 			);
 
@@ -192,10 +190,7 @@ class WC_Admin_Addons {
 
 		$raw_extensions = wp_safe_remote_get(
 			'https://woocommerce.com/wp-json/wccom-extensions/1.0/search' . $parameters,
-			array(
-				'headers'    => $headers,
-				'user-agent' => 'WooCommerce/' . WC()->version . '; ' . get_bloginfo( 'url' ),
-			)
+			array( 'headers' => $headers )
 		);
 
 		if ( is_wp_error( $raw_extensions ) ) {
@@ -238,10 +233,7 @@ class WC_Admin_Addons {
 		if ( false === ( $addon_sections ) ) {
 			$parameter_string = '?' . http_build_query( array( 'locale' => get_user_locale() ) );
 			$raw_sections     = wp_safe_remote_get(
-				'https://woocommerce.com/wp-json/wccom-extensions/1.0/categories' . $parameter_string,
-				array(
-					'user-agent' => 'WooCommerce/' . WC()->version . '; ' . get_bloginfo( 'url' ),
-				)
+				'https://woocommerce.com/wp-json/wccom-extensions/1.0/categories' . $parameter_string
 			);
 			if ( ! is_wp_error( $raw_sections ) ) {
 				$addon_sections = json_decode( wp_remote_retrieve_body( $raw_sections ) );
@@ -285,12 +277,7 @@ class WC_Admin_Addons {
 		if ( ! empty( $section->endpoint ) ) {
 			$section_data = get_transient( 'wc_addons_section_' . $section_id );
 			if ( false === $section_data ) {
-				$raw_section = wp_safe_remote_get(
-					esc_url_raw( $section->endpoint ),
-					array(
-						'user-agent' => 'WooCommerce/' . WC()->version . '; ' . get_bloginfo( 'url' ),
-					)
-				);
+				$raw_section = wp_safe_remote_get( esc_url_raw( $section->endpoint ) );
 
 				if ( ! is_wp_error( $raw_section ) ) {
 					$section_data = json_decode( wp_remote_retrieve_body( $raw_section ) );
